@@ -1,0 +1,26 @@
+{
+  "name": "shopify-dev-challenge",
+  "version": "1.0.0",
+  "description": "Barebones of an online marketplace with bonus integrations (shopping cart, secure, documentation, GraphQL) for the Summer 2019 Shopify Challenge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djoksimo/ShopifyDeveloperChallenge.git"
+  },
+  "keywords": [
+    "graphql",
+    "api",
+    "nodejs",
+    "server",
+    "shopify"
+  ],
+  "author": "Danilo Joksimovic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djoksimo/ShopifyDeveloperChallenge/issues"
+  },
+  "homepage": "https://github.com/djoksimo/ShopifyDeveloperChallenge#readme"
+}

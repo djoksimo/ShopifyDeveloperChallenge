@@ -73,8 +73,7 @@ class ProductManager {
     }
 
   }
-  async findById(query) {
-    const { id } = query;
+  async findById(id) {
     try {
       const result = await this.productService.findById(id);
       if (!result) {
@@ -107,16 +106,27 @@ class ProductManager {
     // TODO: add permission to purchase only if authorized with JWT
     const { productId, cartId } = body;
     try {
-      const product = await this.productService.findById(productId);
+      let product = await this.productService.findById(productId);
       if (product.inventoryCount === 0) {
         return {
           status: 501,
-          message: "Item not available in inventory"
+          json: {
+            message: "Item not available in inventory"
+          }
         };
       } else {
-        const cart = await this.cartService.findById(cartId);
-        cart.products.push(productId);
-        cart.subtotalCost += product.price;
+        let cart = await this.cartService.findById(cartId);
+        if (!cart) {
+          return {
+            status: 400,
+            json: {
+              message: "Cart does not exist"
+            }
+          }
+        }
+
+        cart.products.push(product);
+        cart.subtotalCost += product.price * product.quantity;
         const cartResult = await this.cartService.update(cartId, cart);
         product.inventoryCount -= 1;
         const productResult = await this.productService.update(productId, product);
@@ -126,7 +136,7 @@ class ProductManager {
             message: "Product purchased successfully",
             request: {
               type: "PATCH",
-              url: `http://localhost:3000${route}/purchase`,
+              url: `http://localhost:3000${route}purchase`,
             },
             cartResult,
             productResult

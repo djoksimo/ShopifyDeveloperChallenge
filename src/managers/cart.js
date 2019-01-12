@@ -7,6 +7,8 @@ class CartManager {
   constructor() {
     this.cartService = new CartService();
   }
+
+  // Create new cart
   async create() {
     const newCart = new Cart({
       _id: new mongoose.Types.ObjectId(),

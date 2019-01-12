@@ -1,0 +1,218 @@
+{
+	"info": {
+		"_postman_id": "8eb05594-ff9d-4493-9cb9-7abd606d6311",
+		"name": "Shopify2019Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create new Cart",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/cart/new",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cart",
+						"new"
+					]
+				},
+				"description": "This request creates a new Cart document in the carts collection.\n\n**Leave body and params blank**"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cart By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/cart/?id=5c39593520ac043868bbd4c4",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cart",
+						""
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "5c39593520ac043868bbd4c4"
+						}
+					]
+				},
+				"description": "This request fetches the Cart document with the id specified in the params"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Product Title\",\n    \"price\": 0,\n    \"inventoryCount\": 0\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/product/new",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"product",
+						"new"
+					]
+				},
+				"description": "This requests adds a product document to the products collection.\n\nPlease add JSON body with the following format:\n\n```json\n{\n\t\"title\": \"String Value\",\n\t\"price\": \"Number Value\",\n\t\"inventoryCount\": \"Number Value\"\n}\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/product/all?isAvailable=",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"product",
+						"all"
+					],
+					"query": [
+						{
+							"key": "isAvailable",
+							"value": "",
+							"description": "Boolean value"
+						}
+					]
+				},
+				"description": "Set **isAvailable** flag as true in the params to fetch products with inventoryCount > 0 from the database:\n\nSet **isAvailable** flag as false in the params to fetch all products from the database regardless of inventory availability:"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/product/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"product",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "",
+							"description": "Set value as ObjectId of Product document"
+						}
+					]
+				},
+				"description": "This request fetches the Product document from the database with the id provided in the params"
+			},
+			"response": []
+		},
+		{
+			"name": "Purchase Product (Add product to cart)",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cartId\": \"5c39593520ac043868bbd4c4\",\n    \"productId\": \"5c39547641f85e326a564bd6\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/product/purchase",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"product",
+						"purchase"
+					]
+				},
+				"description": "This request adds a product with id ```productId``` to the cart with id ```productId```\n\nPlease make sure to attach a JSON body with the following format:\n\n```json\n{\n\t\"cartId\": \"ObjectId value\",\n\t\"productId\": \"ObjectId value\"\n}\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Complete Cart (Checkout)",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/cart/complete?id",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cart",
+						"complete"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "",
+							"description": "set value as ObjectId of Cart document"
+						}
+					]
+				},
+				"description": "This request does the following:\n* Empties the products in the cart\n* Reduces subtotal of cart to 0\n* Decrements inventory count of products in cart by 1\n\n**Note: this endpoint will only work if products in cart are available in stock**"
+			},
+			"response": []
+		}
+	]
+}

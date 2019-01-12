@@ -7,12 +7,12 @@ const http = require('http');
 const productRoutes = require('./routes/product');
 const cartRoutes = require('./routes/cart');
 
-mongoose.connect('mongodb://localhost:27017/marketplace', { useNewUrlParser: true });
-const db = mongoose.connection;
-db.on('error', ()=> {console.log( 'FAILED to connect to mongoose')});
-db.once('open', () => {
-  console.log( 'Connected to mongoose');
-});
+const dbUri = 'db';
+mongoose.connect(`mongodb://${dbUri}:27017/marketplace`, { useNewUrlParser: true }).catch(
+  err => {
+    console.log( 'FAILED to connect to db: \n', err);
+  }
+);
 
 const app = express();
 

@@ -1,6 +1,6 @@
 ## Shopify Developer Internship Challenge - Danilo Joksimovic
 
-This project was made for the Summer 2019 Shopify Devloper Internship Challenge. It fully meets the base requirements of the challenge plus the bonus shopping cart implementation.
+This project was made for the Summer 2019 Shopify Devloper Internship Challenge. It fully meets the base requirements of the challenge plus the bonus shopping cart implementation and JWT authorization.
 
 ### Getting Started
 
@@ -9,7 +9,7 @@ This project was made for the Summer 2019 Shopify Devloper Internship Challenge.
 3. Clone this repo ```git clone https://github.com/djoksimo/ShopifyDeveloperChallenge.git```
 5. ```npm install```
 6. ```npm start```
-7. Go to the [Postman Collection](https://documenter.getpostman.com/view/5913563/RznHJHc4) to interact with the API or import  ```Shopify2019Challenge.postman_collection.json``` into Postman
+7. Go to the [Postman Collection](https://documenter.getpostman.com/view/5913563/RznHJHc4) to interact with the API endpoints or import  ```Shopify2019Challenge.postman_collection.json``` into Postman
 
 ### Folder Structure
 ```
@@ -27,3 +27,9 @@ This project was made for the Summer 2019 Shopify Devloper Internship Challenge.
   ├── Shopify2019Challenge.postman_collection.json
   └── README.md
 ```
+
+### Security
+
+1. When a new cart is created, a JWT token is signed with the id of the new Cart document
+2. For all GET /cart requests, the token must be attached in the params along with the id
+3. If the token is signed and valid, the cart corresponding to the shopper's token will be returned

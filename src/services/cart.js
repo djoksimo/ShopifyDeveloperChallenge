@@ -6,7 +6,7 @@ class CartService {
   }
 
   async findById(id) {
-    return Cart.findById(id).populate('products').exec(); // Attach products associated with product ids
+    return Cart.findById(id).populate('products').exec(); // Aggregate products associated with product ids
   }
 
   async update(id, data) {

@@ -17,6 +17,12 @@ class ProductService {
     return Product.find({ inventoryCount: { $gt: 0 } }).exec();
   }
 
+  async updateProductInventory(productIds) {
+    return Product.updateMany(
+      { _id: { $in: productIds }},
+      { $inc: { inventoryCount: -1 }}).exec();
+  }
+
   async update(id, data) {
     return Product.updateOne({ _id: id }, { $set: data }).exec();
   }

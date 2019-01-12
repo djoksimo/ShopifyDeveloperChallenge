@@ -2,10 +2,13 @@ const Cart = require('../models/cart');
 const mongoose = require('mongoose');
 const route = '/cart/';
 let CartService = require('../services/cart');
+let ProductService = require('../services/product');
+
 
 class CartManager {
   constructor() {
     this.cartService = new CartService();
+    this.productService = new ProductService();
   }
 
   // Create new cart
@@ -21,9 +24,9 @@ class CartManager {
       return {
         status: 201,
         json: {
-          message: "Cart added to database",
+          message: 'Cart added to database',
           request: {
-            type: "POST",
+            type: 'POST',
             url: `http://localhost:3000${route}`,
           },
           result,
@@ -35,9 +38,9 @@ class CartManager {
   }
 
   // Find cart by id
-  async findById(query) {
+  async findById(params) {
     // TODO: access cart only if authorized with JWT
-    const { id } = query;
+    const { id } = params;
 
     try {
       const result = await this.cartService.findById(id);
@@ -45,7 +48,7 @@ class CartManager {
         return {
           status: 404,
           json: {
-            message: "Cart not found",
+            message: 'Cart not found',
           },
         };
       }
@@ -53,9 +56,9 @@ class CartManager {
       return {
         status: 200,
         json: {
-          message: "Cart pulled from database",
+          message: 'Cart pulled from database',
           request: {
-            type: "GET",
+            type: 'GET',
             url: `http://localhost:3000${route}/${id}`,
           },
           result,
@@ -66,6 +69,55 @@ class CartManager {
       return { status: 500, json: error };
     }
   }
+
+  // Remove products from cart, reduce subtotal to 0 and reduce inventory of each product
+  async checkout(params) {
+    // TODO: complete purchase only if authorized with JWT
+    const { id } = params;
+    try {
+      let cart = await this.cartService.findById(id);
+      let productIds = [];
+
+      for (let i = 0; i < cart.products.length; i++) {
+        productIds.push(cart.products[i]._id);
+      }
+      const invetoryResult = await this.productService.updateProductInventory(productIds);
+      let isValidInventory = true;
+      for (let key in invetoryResult) {
+        if (invetoryResult.inventoryCount < 0) {
+          isValidInventory = false;
+          break;
+        }
+      }
+
+      if (!isValidInventory) {
+        return {
+          status: 400,
+          json: {
+            message: "Not enough products available in requested quantity"
+          }
+        };
+      }
+      cart.products = [];
+      cart.subtotalCost = 0;
+      const cartResult = await this.cartService.update(id, cart);
+      return {
+        status: 200,
+        json: {
+          message: 'Cart completed',
+          request: {
+            type: 'GET',
+            url: `http://localhost:3000${route}/${id}`,
+          },
+          invetoryResult,
+          cartResult
+        },
+      };
+    } catch(error) {
+      console.log(error);
+      return { status: 500, json: error };
+    }
+  } 
 }
 
 module.exports = CartManager;

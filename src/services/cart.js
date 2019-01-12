@@ -10,7 +10,7 @@ class CartService {
   }
 
   async update(id, data) {
-    return Cart.update({ id }, { $set: data }).exec();
+    return Cart.updateOne({ _id: id }, { $set: data }).exec();
   }
 }
 

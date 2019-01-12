@@ -9,8 +9,8 @@ router.post('/', async (req, res) => {
   res.status(status).json(json);
 });
 
-router.get('/id', async (req, res) => {
-  const result = await productManager.findById(req.query);
+router.get('/id/:id', async (req, res) => {
+  const result = await productManager.findById(req.params.id);
   const { status, json } = result;
   res.status(status).json(json);
 });

@@ -10,6 +10,7 @@ class ProductManager {
     this.cartService = new CartService();
   }
 
+  // Add product to inventory
   async create(productData) {
     const { title, price, inventoryCount } = productData;
     const newProduct = new Product({
@@ -23,10 +24,10 @@ class ProductManager {
       return {
         status: 201,
         json: {
-          message: "Product added to database",
+          message: 'Product added to database',
           request: {
-            type: "POST",
-            url: `http://localhost:3000${route}`,
+            type: 'POST',
+            url: `http://localhost:3000${route}/new`,
           },
           result,
         },
@@ -40,7 +41,7 @@ class ProductManager {
     const { isAvailable } = query;
     let result = {};
     try {
-      if (isAvailable === true) {
+      if (isAvailable) {
         // only return products with available inventory
         result = await this.productService.getAvailable();
       } else {
@@ -51,7 +52,7 @@ class ProductManager {
         return {
           status: 404,
           json: {
-            message: "0 products found",
+            message: '0 products found',
           },
         };
       }
@@ -59,9 +60,9 @@ class ProductManager {
       return {
         status: 200,
         json: {
-          message: "Products pulled from database",
+          message: 'Products pulled from database',
           request: {
-            type: "GET",
+            type: 'GET',
             url: `http://localhost:3000${route}/all`,
           },
           result,
@@ -80,7 +81,7 @@ class ProductManager {
         return {
           status: 404,
           json: {
-            message: "Product not found",
+            message: 'Product not found',
           },
         };
       }
@@ -88,10 +89,10 @@ class ProductManager {
       return {
         status: 200,
         json: {
-          message: "Product pulled from database",
+          message: 'Product pulled from database',
           request: {
-            type: "GET",
-            url: `http://localhost:3000${route}/${id}`,
+            type: 'GET',
+            url: `http://localhost:3000${route}/id/${id}`,
           },
           result,
         },
@@ -102,6 +103,7 @@ class ProductManager {
     }
   }
 
+  // Add product to cart
   async purchase(body) {
     // TODO: add permission to purchase only if authorized with JWT
     const { productId, cartId } = body;
@@ -109,9 +111,9 @@ class ProductManager {
       let product = await this.productService.findById(productId);
       if (product.inventoryCount === 0) {
         return {
-          status: 501,
+          status: 204,
           json: {
-            message: "Item not available in inventory"
+            message: 'Item not available in inventory'
           }
         };
       } else {
@@ -120,26 +122,23 @@ class ProductManager {
           return {
             status: 400,
             json: {
-              message: "Cart does not exist"
+              message: 'Cart does not exist'
             }
           }
         }
 
         cart.products.push(product);
-        cart.subtotalCost += product.price * product.quantity;
+        cart.subtotalCost += product.price;
         const cartResult = await this.cartService.update(cartId, cart);
-        product.inventoryCount -= 1;
-        const productResult = await this.productService.update(productId, product);
         return {
           status: 200,
           json: {
-            message: "Product purchased successfully",
+            message: 'Product purchased successfully',
             request: {
-              type: "PATCH",
+              type: 'PATCH',
               url: `http://localhost:3000${route}purchase`,
             },
             cartResult,
-            productResult
           },
         };
       }

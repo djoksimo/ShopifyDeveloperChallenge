@@ -37,6 +37,7 @@ class ProductManager {
     }
   }
 
+  // Find all products
   async find(query) {
     const { isAvailable } = query;
     let result = {};
@@ -74,6 +75,8 @@ class ProductManager {
     }
 
   }
+
+  // Find product by ID
   async findById(id) {
     try {
       const result = await this.productService.findById(id);

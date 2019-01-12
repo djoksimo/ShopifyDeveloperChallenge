@@ -7,7 +7,8 @@ const http = require('http');
 const productRoutes = require('./routes/product');
 const cartRoutes = require('./routes/cart');
 
-const dbUri = 'db';
+const dbUri = 'db'; // if running locally: change to 'localhost'
+
 mongoose.connect(`mongodb://${dbUri}:27017/marketplace`, { useNewUrlParser: true }).catch(
   err => {
     console.log( 'FAILED to connect to db: \n', err);

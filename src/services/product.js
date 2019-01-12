@@ -14,12 +14,11 @@ class ProductService {
   }
 
   async getAvailable() {
-    return Product.find(
-      { inventoryCount: { $gt: 0 } }).exec();
+    return Product.find({ inventoryCount: { $gt: 0 } }).exec();
   }
 
   async update(id, data) {
-    return Product.update({ id }, { $set: data }).exec();
+    return Product.updateOne({ _id: id }, { $set: data }).exec();
   }
 }
 

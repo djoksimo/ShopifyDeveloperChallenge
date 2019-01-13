@@ -3,6 +3,7 @@
 This project was made for the Summer 2019 Shopify Devloper Internship Challenge. It fully meets the base requirements of the challenge plus the bonus shopping cart implementation and some security features.
 
 Deployed to a GKE cluster with load balancing service at http://35.243.220.74:3000
+
 Go to this **[Postman Collection](https://documenter.getpostman.com/view/5913563/RznHJHc4)** to interact with the API endpoints or import  ```Shopify2019Challenge.postman_collection.json``` into Postman
 
 ### Getting Started

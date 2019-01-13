@@ -4,6 +4,8 @@ const ProductService = require('../services/product');
 const CartService = require('../services/cart');
 const Product = require('../models/product');
 
+const productKey = "3ca13ad5-4849-4374-abe2-fcf796c29376";
+
 class ProductManager {
   constructor() {
     this.productService = new ProductService();
@@ -12,7 +14,15 @@ class ProductManager {
 
   // Add product to inventory
   async create(productData) {
-    const { title, price, inventoryCount } = productData;
+    const { title, price, inventoryCount, apiKey } = productData;
+    if (!apiKey || apiKey !== productKey) {
+      return {
+        status: 403,
+        json: {
+          message: "You do not have permission to add products to marketplace"
+        }
+      }
+    }
     const newProduct = new Product({
       _id: new mongoose.Types.ObjectId(),
       title: title,
@@ -27,7 +37,7 @@ class ProductManager {
           message: 'Product added to database',
           request: {
             type: 'POST',
-            url: `http://localhost:3000${route}/new`,
+            url: `http://localhost:3000${route}new`,
           },
           result,
         },
@@ -64,7 +74,7 @@ class ProductManager {
           message: 'Products pulled from database',
           request: {
             type: 'GET',
-            url: `http://localhost:3000${route}/all`,
+            url: `http://localhost:3000${route}all`,
           },
           result,
         },
@@ -95,7 +105,7 @@ class ProductManager {
           message: 'Product pulled from database',
           request: {
             type: 'GET',
-            url: `http://localhost:3000${route}/id/${id}`,
+            url: `http://localhost:3000${route}${id}`,
           },
           result,
         },
@@ -149,7 +159,6 @@ class ProductManager {
       return { status: 500, json: error };
     }
   }
-
 }
 
 module.exports = ProductManager;

@@ -9,7 +9,7 @@ const cartRoutes = require('./routes/cart');
 
 const dbUri = 'db'; // if running locally: change to 'localhost'
 
-mongoose.connect(`mongodb://${dbUri}:27017/marketplace`, { useNewUrlParser: true }).catch(
+mongoose.connect(`mongodb://djoksimo:shopify123@ds155714.mlab.com:55714/marketplace`, { useNewUrlParser: true }).catch(
   err => {
     console.log( 'FAILED to connect to db: \n', err);
   }

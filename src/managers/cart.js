@@ -32,7 +32,7 @@ class CartManager {
           message: 'Cart added to database',
           request: {
             type: 'POST',
-            url: `http://localhost:3000${route}`,
+            url: `http://localhost:3000${route}/new`,
           },
           token: token,
           result,
@@ -70,7 +70,7 @@ class CartManager {
           message: 'Cart pulled from database',
           request: {
             type: 'GET',
-            url: `http://localhost:3000${route}/${id}`,
+            url: `http://localhost:3000${route}`,
           },
           result,
         },
@@ -122,7 +122,7 @@ class CartManager {
           message: 'Cart completed',
           request: {
             type: 'GET',
-            url: `http://localhost:3000${route}/${id}`,
+            url: `http://localhost:3000${route}complete`,
           },
           invetoryResult,
           cartResult

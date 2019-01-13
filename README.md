@@ -3,6 +3,7 @@
 This project was made for the Summer 2019 Shopify Devloper Internship Challenge. It fully meets the base requirements of the challenge plus the bonus shopping cart implementation and some security features.
 
 Deployed to a GKE cluster with load balancing service at http://35.243.220.74:3000
+Go to this **[Postman Collection](https://documenter.getpostman.com/view/5913563/RznHJHc4)** to interact with the API endpoints or import  ```Shopify2019Challenge.postman_collection.json``` into Postman
 
 ### Getting Started
 
@@ -10,7 +11,6 @@ Deployed to a GKE cluster with load balancing service at http://35.243.220.74:30
 2. Clone this repo ```git clone https://github.com/djoksimo/ShopifyDeveloperChallenge.git```
 3. ```npm install```
 4. ```npm start```
-5. Go to the [Postman Collection](https://documenter.getpostman.com/view/5913563/RznHJHc4) to interact with the API endpoints or import  ```Shopify2019Challenge.postman_collection.json``` into Postman
 
 ### Project Structure
 ```
@@ -31,7 +31,7 @@ Deployed to a GKE cluster with load balancing service at http://35.243.220.74:30
 
 ### Security
 
-1. When a new cart is created, a JWT token is signed with the id of the new Cart document
-2. For all GET /cart requests, the token must be attached in the params along with the id
-3. If the token is signed and valid, the cart corresponding to the shopper's token will be returned
+1. When a new cart is created, a JWT token is signed with the id of the newly created Cart document
+2. When fetching a Cart document, the JWT token associated with the Cart document must be attached in the params along with the Cart id
+3. If the JWT token is signed and valid, the Cart document corresponding to the shopper's token will be returned
 4. To add a new product, the apiKey must be attached to the body

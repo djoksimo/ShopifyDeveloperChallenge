@@ -2,7 +2,7 @@
 
 This project was made for the Summer 2019 Shopify Devloper Internship Challenge. It fully meets the base requirements of the challenge plus the bonus shopping cart implementation and some security features.
 
-Deployed to a GKE cluster at http://35.243.220.74:3000 with load balancing
+Deployed to a GKE cluster with load balancing service at http://35.243.220.74:3000
 
 ### Getting Started
 
